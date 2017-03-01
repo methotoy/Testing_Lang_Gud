@@ -1,0 +1,33 @@
+<md-dialog aria-label="Book Information">
+  <form ng-cloak name="bookForm" ng-submit="bookDialogCtrl.save()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ bookDialogCtrl.dialogTitle }}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" ng-if="!bookDialogCtrl.editMode">
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Title</label>
+            <input ng-required="true" class="form-control" name="title" ng-model="title">
+            <div ng-messages="bookForm.title.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container flex>
+            <label>Author</label>
+            <input required type="text" name="author">
+          </md-input-container>
+        </div>                
+       </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button type="button" ng-click="bookDialogCtrl.cancel()">Cancel</md-button>
+      <md-button class="md-primary md-raised" ng-disabled="bookForm.$invalid" type="submit">{{bookDialogCtrl.selectedData == null? 'Save': 'Update'}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

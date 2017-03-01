@@ -25,3 +25,13 @@ Route::post('auth/password/reset', 'Auth\PasswordResetController@reset');
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::group(['middleware' => ['api']], function () {
+
+	// Book Group
+	Route::group(['prefix' => 'book'], function () {
+		Route::post('list', 'BookController@getList');
+		Route::post('delete', 'BookController@delete');
+	});
+
+});

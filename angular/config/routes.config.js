@@ -5,7 +5,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 		return `./views/app/pages/${viewName}/${viewName}.page.html`;
 	};
 
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/main');
 
     /*
         data: {auth: true} would require JWT auth
@@ -18,6 +18,9 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 			abstract: true,
             data: {},
 			views: {
+                sidenav: {
+                    templateUrl: getView('side-nav')
+                },
 				header: {
 					templateUrl: getView('header')
 				},
@@ -27,8 +30,24 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 				main: {}
 			}
 		})
-		.state('app.landing', {
-            url: '/',
+		.state('app.body', {
+            url: '/main',
+            views: {
+                'main@': {
+                    templateUrl: getView('body')
+                }
+            }
+        })
+        .state('app.book', {
+            url: '/test',
+            views: {
+                'main@': {
+                    templateUrl: getView('book')
+                }
+            }
+        })
+        .state('app.landing', {
+            url: '/landing',
             views: {
                 'main@': {
                     templateUrl: getView('landing')

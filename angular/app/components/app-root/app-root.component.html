@@ -1,3 +1,10 @@
-<div ui-view="header"></div>
-<div ui-view="main"></div>
-<div ui-view="footer"></div>
+<div layout="column" ng-cloak>
+	<!-- <div ui-view="header"></div> -->
+	<md-content layout="row">
+		<div ui-view="sidenav"></div>
+		<div layout="column" flex>
+			<div ui-view="main"></div>
+			<div ui-view="footer"></div>
+		</div>
+	</md-content>
+</div>

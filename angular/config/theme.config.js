@@ -5,7 +5,7 @@ export function ThemeConfig($mdThemingProvider) {
 		.primaryPalette('light-blue', {
             default: '600'
         })
-		.accentPalette('grey')
+		.accentPalette('green')
 		.warnPalette('red');
 
     $mdThemingProvider.theme('warn');

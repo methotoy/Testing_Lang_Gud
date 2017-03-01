@@ -1,0 +1,16 @@
+.container md-content {
+	background-color: transparent !important; 
+}
+
+.container md-content md-tabs {
+	background: black !important;
+	border: 1px solid #e1e1e1 !important; 
+}
+
+.container md-content md-tabs md-tabs-wrapper {
+	background: white; 
+}
+
+.container md-content h1:first-child {
+	margin-top: 0; 
+}

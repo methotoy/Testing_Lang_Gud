@@ -3,8 +3,9 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="img/icon.png" type="image/png">
 
-    <title>Laravel Angular Material Starter</title>
+    <title>Doremi</title>
 
     <meta name="theme-color" content="#0690B7">
 
@@ -13,7 +14,10 @@
     <!--[if lte IE 10]>
     <script type="text/javascript">document.location.href = '/unsupported-browser'</script>
     <![endif]-->
-
+    
+    <!-- For Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <style><?php require(public_path("css/critical.css")) ?></style>
 
 </head>
@@ -21,7 +25,7 @@
 
     <app-shell>
         <div id="app-shell-header">
-            <img src="img/icons/logo.svg" width="171" height="41">
+            <img src="img/d.png" width="41" height="41">
         </div>
         <div id="app-shell-content"></div>
     </app-shell>
