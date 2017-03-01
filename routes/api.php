@@ -30,8 +30,9 @@ Route::group(['middleware' => ['api']], function () {
 
 	// Book Group
 	Route::group(['prefix' => 'book'], function () {
-		Route::post('list', 'BookController@getList');
+		Route::post('list', 'BookController@list');
 		Route::post('delete', 'BookController@delete');
+		Route::post('add', 'BookController@add');
 	});
 
 });

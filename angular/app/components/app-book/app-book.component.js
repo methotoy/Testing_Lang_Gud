@@ -41,6 +41,7 @@ class AppBookController{
             targetEvent         : ev,
             clickOutsideToClose : false,
             fullscreen          : true,
+            escapeToClose       : false
         });
     }
 
@@ -53,7 +54,6 @@ class AppBookController{
     }
 
     delete(ev, data = null) {
-        console.log(ev);
         let confirm = this.$mdDialog.confirm()
             .title('Attention!')
             .textContent('You are about to delete book \''+data.title+'\'')                
@@ -78,7 +78,7 @@ class AppBookController{
 }
 
 class BookDialogController {
-    constructor( getData, $mdDialog, API, ToastService ){
+    constructor( getData, $mdDialog, API, ToastService){
         'ngInject';
 
         this.API = API;
@@ -92,6 +92,25 @@ class BookDialogController {
         this.dialogTitle = "Book Information";
 
         this.editMode = this.selectedData != null? true : false;
+
+        this.formData = {};
+
+        this.formDisabled = false;
+    }
+
+    save() {
+        this.formDisabled = true;
+        console.log(this.formData);
+        this.API.all('/book/add').post(this.formData).then(
+            function() {
+                this.$mdDialog.hide();
+                this.ToastService.show('Add book successfully.');
+            }.bind(this),
+            function() {
+                this.$mdDialog.cancel();
+                this.ToastService.error('Add book failed!');
+            }.bind(this)
+        );
     }
 
     hide(){
