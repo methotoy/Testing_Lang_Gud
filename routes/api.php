@@ -32,7 +32,7 @@ Route::group(['middleware' => ['api']], function () {
 	Route::group(['prefix' => 'book'], function () {
 		Route::post('list', 'BookController@list');
 		Route::post('delete', 'BookController@delete');
-		Route::post('add', 'BookController@add');
+		Route::post('save', 'BookController@save');
 	});
 
 });

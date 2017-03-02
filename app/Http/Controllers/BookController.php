@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\Common;
+
 class BookController extends ModelController
 {
+    use Common;
+
     public function list() {
     	$data = $this->book->get();
     	return response()->json(compact('data'), 200);
@@ -20,13 +24,17 @@ class BookController extends ModelController
     	return response()->error('Error');
     }
 
-    public function add(Request $request) {
+    public function save(Request $request) {
         // validate required fields
         $this->validate($request,[
             'title'     => 'required',
             'author'    => 'required',
             'category'  => 'required'
         ]);
+
+        if($request->has('id')) {
+            $this->book = $this->book->find($request->id);
+        }
 
         // fetch request data to the database fields
         $this->book->title = $request->title;
@@ -35,7 +43,7 @@ class BookController extends ModelController
         $this->book->edition = $request->has('edition')? $request->edition : null;
         $this->book->pages = $request->has('pages')? $request->pages : null;
         $this->book->year = $request->has('year')? $request->year : null;
-        $this->book->date_received = $request->has('date_received')? $request->date_received : null;
+        $this->book->date_received = $request->has('date_received')? $this->formatDate($request->date_received,'Y-m-d') : null;
         $this->book->class = $request->has('class')? $request->class : null;
         $this->book->volume = $request->has('volume')? $request->volume : null;
         $this->book->source_of_fund = $request->has('source_of_fund')? $request->source_of_fund : null;
@@ -50,4 +58,5 @@ class BookController extends ModelController
 
         return response()->json(compact("request"));
     }
+
 }

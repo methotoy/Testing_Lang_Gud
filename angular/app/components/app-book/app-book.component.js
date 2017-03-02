@@ -42,7 +42,7 @@ class AppBookController{
             clickOutsideToClose : false,
             fullscreen          : true,
             escapeToClose       : false
-        });
+        }).then(this.fetchBookList());
     }
 
     hide(){
@@ -78,7 +78,8 @@ class AppBookController{
 }
 
 class BookDialogController {
-    constructor( getData, $mdDialog, API, ToastService){
+
+    constructor( getData, $mdDialog, API, ToastService, $filter ){
         'ngInject';
 
         this.API = API;
@@ -87,30 +88,46 @@ class BookDialogController {
 
         this.$mdDialog = $mdDialog;
 
+        this.$filter = $filter;
+
         this.selectedData = getData;
 
         this.dialogTitle = "Book Information";
 
         this.editMode = this.selectedData != null? true : false;
 
-        this.formData = {};
+        this.formData = this.selectedData == null? {} : this.selectedData;
 
         this.formDisabled = false;
+
+        this.updateData = false;
     }
 
     save() {
         this.formDisabled = true;
-        console.log(this.formData);
-        this.API.all('/book/add').post(this.formData).then(
+
+        console.log(this.updateData);
+
+        this.toastMessageSuccess = this.updateData? 'Book successfully updated.' : 'Book successfully added.';
+
+        this.toastMessageError = this.updateData? 'Failed to update book!' : 'Failed to add book!';
+
+        this.API.all('/book/save').post(this.formData).then(
             function() {
                 this.$mdDialog.hide();
-                this.ToastService.show('Add book successfully.');
+                this.ToastService.show(this.toastMessageSuccess);
             }.bind(this),
             function() {
                 this.$mdDialog.cancel();
-                this.ToastService.error('Add book failed!');
+                this.ToastService.error(this.toastMessageError);
             }.bind(this)
         );
+    }
+
+    edit() {
+        this.editMode = false;
+
+        this.updateData = true;
     }
 
     hide(){
