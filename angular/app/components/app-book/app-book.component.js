@@ -42,7 +42,7 @@ class AppBookController{
             clickOutsideToClose : false,
             fullscreen          : true,
             escapeToClose       : false
-        }).then(this.fetchBookList());
+        });
     }
 
     hide(){
