@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="img/icon.png" type="image/png">
 
     <title>Doremi</title>
+    <base href="/">
 
     <meta name="theme-color" content="#0690B7">
 
@@ -17,6 +18,7 @@
     
     <!-- For Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://material.angularjs.org/latest/angular-material.min.css" rel="stylesheet">
     
     <style><?php require(public_path("css/critical.css")) ?></style>
 
@@ -25,7 +27,7 @@
 
     <app-shell>
         <div id="app-shell-header">
-            <img src="img/d.png" width="41" height="41">
+            <!-- <img src="img/d.png" width="41" height="41"> -->
         </div>
         <div id="app-shell-content"></div>
     </app-shell>

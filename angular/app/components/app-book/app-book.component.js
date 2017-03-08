@@ -79,7 +79,7 @@ class AppBookController{
 
 class BookDialogController {
 
-    constructor( getData, $mdDialog, API, ToastService, $filter ){
+    constructor( getData, $mdDialog, API, ToastService ){
         'ngInject';
 
         this.API = API;
@@ -87,8 +87,6 @@ class BookDialogController {
         this.ToastService = ToastService;
 
         this.$mdDialog = $mdDialog;
-
-        this.$filter = $filter;
 
         this.selectedData = getData;
 
@@ -105,9 +103,7 @@ class BookDialogController {
 
     save() {
         this.formDisabled = true;
-
-        console.log(this.updateData);
-
+        
         this.toastMessageSuccess = this.updateData? 'Book successfully updated.' : 'Book successfully added.';
 
         this.toastMessageError = this.updateData? 'Failed to update book!' : 'Failed to add book!';
@@ -125,6 +121,8 @@ class BookDialogController {
     }
 
     edit() {
+        this.formData.date_received = this.formData.date_received != null? new Date(this.formData.date_received) : null;
+
         this.editMode = false;
 
         this.updateData = true;

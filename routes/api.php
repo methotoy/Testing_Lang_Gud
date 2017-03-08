@@ -33,6 +33,8 @@ Route::group(['middleware' => ['api']], function () {
 		Route::post('list', 'BookController@list');
 		Route::post('delete', 'BookController@delete');
 		Route::post('save', 'BookController@save');
+		Route::post('find', 'BookController@find');
+		
 	});
 
 });

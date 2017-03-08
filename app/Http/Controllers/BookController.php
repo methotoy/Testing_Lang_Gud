@@ -59,4 +59,13 @@ class BookController extends ModelController
         return response()->json(compact("request"));
     }
 
+    public function find(Request $request) {
+        if($request->has('id')) {
+            $data = $this->book->find($request->id);
+            return response()->json(compact('data'), 200);
+        }
+        
+        return response()->error('Error');
+    }
+
 }

@@ -30,7 +30,15 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 				main: {}
 			}
 		})
+        .state('app2', {
+            abstract: true,
+            data: {},
+            views: {        
+                main: {}
+            }
+        })
 		.state('app.body', {
+            data: {auth: true},
             url: '/main',
             views: {
                 'main@': {
@@ -39,6 +47,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.book', {
+            data: {auth: true},
             url: '/test',
             views: {
                 'main@': {
@@ -54,7 +63,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('app.login', {
+        .state('app2.login', {
 			url: '/login',
 			views: {
 				'main@': {
@@ -86,4 +95,6 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         });
+
+    // $locationProvider.html5Mode(true);    
 }

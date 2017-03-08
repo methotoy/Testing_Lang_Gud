@@ -13,11 +13,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|email',
-            'password' => 'required|min:8',
+            'username'    => 'required',
+            'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         try {
             // verify the credentials and create a token for the user
