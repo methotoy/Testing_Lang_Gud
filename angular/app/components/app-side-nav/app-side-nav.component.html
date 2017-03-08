@@ -1,12 +1,30 @@
-<div class="nav-container" md-whiteframe="2">
-  <md-contet>
+<!-- <div class="nav-container" md-whiteframe="2">
+  <md-content>
     <md-list flex>
       <md-list-item class="menu" ui-sref="app.body" layout-align="center center">
-        <span>HOME</span>
+        <md-icon>home</md-icon>
       </md-list-item>
       <md-list-item class="menu" ui-sref="app.book">
         <span>TEST</span>
       </md-list-item>
     </md-list>
-  </md-contet>
-</div>
+  </md-content>
+</div> -->
+
+<section layout="row" flex>
+  <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+    <md-content>
+      <md-list flex>
+        <md-list-item ui-sref="app.body">
+          <md-icon> home </md-icon>
+          <p>Home</p>
+        </md-list-item>
+
+        <md-list-item ui-sref="app.book">
+          <md-icon> assignment </md-icon>
+          <p>Book</p>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </md-sidenav>
+</section>

@@ -1,10 +1,10 @@
-<div layout="column" ng-cloak>
+<md-content class="main" layout="column" flex ng-cloak>
 	<div ui-view="header"></div>
-	<md-content layout="row">
-		<div ui-view="sidenav" flex="10"></div>
-		<div layout="column" flex>
+	<md-content layout="row" flex>
+		<div ui-view="sidenav" md-whiteframe="2" flex="15"></div>
+		<div layout="column" md-scroll-y flex>
 			<div ui-view="main"></div>
-			<div ui-view="footer"></div>
+			<div ui-view="footer" ng-cloak></div>
 		</div>
 	</md-content>
-</div>
+</md-content>

@@ -1,14 +1,15 @@
 <div ng-cloak class="container" md-them="altTheme">
-	<md-toolbar class="md-whiteframe-1dp">
-    <div class="md-toolbar-tools">
-    </div>
-  </md-toolbar>
-
   <md-content layout="column" flex>
 	  <md-card md-theme-watch>
 	  	<md-toolbar class="md-table-toolbar md-default">
         <div class="md-toolbar-tools">
-          <div flex></div>
+          <div flex>
+            <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
+              <label>Search</label>
+              <md-icon>search</md-icon>
+              <input ng-model="bookCtrl.filter" type="text">
+            </md-input-container>
+          </div>
           <md-button class="md-raised md-primary" ng-click="bookCtrl.action($event)">
             <md-icon>add</md-icon>
             <span ng-style="{'color':'white'}">ADD</span>
@@ -40,7 +41,7 @@
           </thead>
 
           <tbody md-body>
-            <tr md-row ng-repeat="list in bookCtrl.bookList.data | orderBy: bookCtrl.query.order | limitTo: bookCtrl.query.limit : (bookCtrl.query.page -1) * bookCtrl.query.limit">
+            <tr md-row ng-repeat="list in bookCtrl.bookList.data | filter: bookCtrl.filter | orderBy: bookCtrl.query.order | limitTo: bookCtrl.query.limit : (bookCtrl.query.page -1) * bookCtrl.query.limit">
               <td md-cell>{{list.id}}</td>
               <td md-cell>{{list.title}}</td>
               <td md-cell>{{list.author}}</td>

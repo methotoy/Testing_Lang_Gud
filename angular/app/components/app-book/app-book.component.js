@@ -19,6 +19,8 @@ class AppBookController{
         this.bookList = {};
 
         this.fetchBookList();
+
+        this.filter = '';
     }
 
     fetchBookList() {
