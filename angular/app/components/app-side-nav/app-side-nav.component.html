@@ -11,7 +11,7 @@
   </md-content>
 </div> -->
 
-<section layout="row" flex>
+<md-card layout="row" flex>
   <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
     <md-content>
       <md-list flex>
@@ -21,10 +21,15 @@
         </md-list-item>
 
         <md-list-item ui-sref="app.book">
-          <md-icon> assignment </md-icon>
+          <md-icon> import_contacts </md-icon>
           <p>Book</p>
+        </md-list-item>
+
+        <md-list-item ui-sref="app.request">
+          <md-icon> assignment </md-icon>
+          <p>Request</p>
         </md-list-item>
       </md-list>
     </md-content>
   </md-sidenav>
-</section>
+</md-card>

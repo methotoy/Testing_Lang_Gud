@@ -48,10 +48,19 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
         })
         .state('app.book', {
             data: {auth: true},
-            url: '/test',
+            url: '/book',
             views: {
                 'main@': {
                     templateUrl: getView('book')
+                }
+            }
+        })
+        .state('app.request', {
+            data: {auth: true},
+            url: '/request',
+            views: {
+                'main@': {
+                    templateUrl: getView('request')
                 }
             }
         })

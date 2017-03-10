@@ -1,3 +1,4 @@
+import {AppRequestComponent} from './app/components/app-request/app-request.component';
 import {AppProfileComponent} from './app/components/app-profile/app-profile.component';
 import {AppBookComponent} from './app/components/app-book/app-book.component';
 import {AppSideNavComponent} from './app/components/app-side-nav/app-side-nav.component';
@@ -11,6 +12,7 @@ import {LoginFormComponent} from './app/components/login-form/login-form.compone
 import {RegisterFormComponent} from './app/components/register-form/register-form.component';
 
 angular.module('app.components')
+	.component('appRequest', AppRequestComponent)
 	.component('appProfile', AppProfileComponent)
 	.component('appBook', AppBookComponent)
 	.component('appSideNav', AppSideNavComponent)

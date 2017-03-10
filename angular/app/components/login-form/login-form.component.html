@@ -1,29 +1,27 @@
-<div ng-cloak>
-	<md-card>
-		<md-toolbar>
-	    <div class="md-toolbar-tools">
-	      <h2 class="md-flex">Log in your account</h2>
-	    </div>
-	  </md-toolbar>
+<md-card ng-cloak>
+	<md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Log in your account</h2>
+    </div>
+  </md-toolbar>
 
-    <md-content layout-padding flex>
-			<form ng-submit="vm.login()">
-				<div>
-					<md-input-container class="LoginForm-inputContainer">
-						<label>Username</label>
-						<input type="text" ng-model="vm.username">
-					</md-input-container>
-				</div>
+	<md-content layout-padding flex>
+		<form ng-submit="vm.login()">
+			<div>
+				<md-input-container class="LoginForm-inputContainer">
+					<label>Username</label>
+					<input type="text" ng-model="vm.username">
+				</md-input-container>
+			</div>
 
-				<div>
-					<md-input-container class="LoginForm-inputContainer">
-						<label>Password</label>
-						<input type="password" ng-model="vm.password">
-					</md-input-container>
-				</div>
+			<div>
+				<md-input-container class="LoginForm-inputContainer">
+					<label>Password</label>
+					<input type="password" ng-model="vm.password">
+				</md-input-container>
+			</div>
 
-				<md-button type="submit" class="LoginForm-submit md-primary md-raised">Log in</md-button>
-			</form>
-		</md-content>
-	</md-card>
-</div>
+			<md-button type="submit" class="LoginForm-submit md-primary md-raised">Log in</md-button>
+		</form>
+	</md-content>
+</md-card>

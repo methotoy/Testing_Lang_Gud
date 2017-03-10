@@ -1,11 +1,33 @@
 <md-content flex>
-  <md-toolbar>
+  <md-toolbar class="md-accent">
     <div class="md-toolbar-tools">
     	<div layout="row" class="md-toolbar-tools">
         <div flex></div>
-        <md-button class="md-icon-button" ng-click="alert()">
-          <md-icon md-font-set="material-icons"> dehaze </md-icon>
-        </md-button>
+        <md-menu md-position-mode="target-right target" >
+	        <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+	          <md-icon md-font-set="material-icons"> settings </md-icon>
+	        </md-button>
+
+	        <md-menu-content width="4">
+            <!-- <md-menu-item>
+              <md-button ng-click="null">
+                <div layout="row" flex>
+                	<md-icon md-font-set="material-icons"> account_circle </md-icon>
+                  <p flex>Profile</p>
+                </div>
+              </md-button>
+            </md-menu-item> -->
+
+            <md-menu-item>
+              <md-button ng-click="headerCtrl.logout()">
+                <div layout="row" flex>
+                	<md-icon md-font-set="material-icons"> power_settings_new </md-icon>
+                  <p flex>Log Out</p>
+                </div>
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
     </div>
   </md-toolbar>
 </md-content>

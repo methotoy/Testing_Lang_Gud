@@ -38,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
-   /**
+    /**
     * Return a key value array, containing any custom claims to be added to the JWT
     *
     * @return array
@@ -47,4 +47,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+    * Return an array value, containing all the book request of the user
+    *
+    * @return array
+    */
+    public function bookRequests()
+    {
+        return $this->hasMany('App\Models\BookRequest', 'user_id');
+    }
+
+
 }

@@ -1,26 +1,32 @@
 <div ng-cloak class="container" md-them="altTheme">
   <md-content layout="column" flex>
-	  <md-card md-theme-watch>
-	  	<md-toolbar class="md-table-toolbar md-default">
+    <md-card>
+	   <md-toolbar class="md-table-toolbar md-default">
         <div class="md-toolbar-tools">
           <div flex>
             <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
               <label>Search</label>
-              <md-icon>search</md-icon>
+              <md-icon> search </md-icon>
               <input ng-model="bookCtrl.filter" type="text">
             </md-input-container>
           </div>
-          <md-button class="md-raised md-primary" ng-click="bookCtrl.action($event)">
-            <md-icon>add</md-icon>
-            <span ng-style="{'color':'white'}">ADD</span>
+          <md-button class="md-icon-button" ng-click="bookCtrl.action($event)">
+            <md-icon> add_circle_outline </md-icon>
+            <md-tooltip>
+              Add New Book
+            </md-tooltip>
           </md-button>
-          <md-button class="md-raised md-primary" ng-click="bookCtrl.fetchBookList()" id="refreshBookBtn">
-            <md-icon>refresh</md-icon>
-            <span ng-style="{'color':'white'}">REFRESH</span>
+          <md-button class="md-icon-button" ng-click="bookCtrl.fetchBookList()">
+            <md-icon> refresh </md-icon>
+            <md-tooltip>
+              Refresh Table
+            </md-tooltip>
           </md-button>
         </div>
       </md-toolbar>
-      
+    </md-card>
+
+    <md-card>      
       <md-table-container>
         <table md-table>
 
@@ -49,9 +55,15 @@
               <td md-cell style="text-align:center;">
               	<md-button  class="md-icon-button" ng-click="bookCtrl.delete($event, list);"> 
                   <md-icon md-font-set="material-icons">delete</md-icon>
+                  <md-tooltip>
+                    Delete
+                  </md-tooltip>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="bookCtrl.action($event, list);"> 
                   <md-icon md-font-set="material-icons">create</md-icon>
+                  <md-tooltip>
+                    Edit
+                  </md-tooltip>
                 </md-button>
               </td>
             </tr>

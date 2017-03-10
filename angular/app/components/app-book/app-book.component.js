@@ -48,6 +48,8 @@ class AppBookController{
             function(){
                 this.fetchBookList();
                 this.hide();
+            }.bind(this),
+            function(){
             }.bind(this)
         );
     }
