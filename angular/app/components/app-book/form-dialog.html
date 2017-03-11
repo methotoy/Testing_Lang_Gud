@@ -12,7 +12,7 @@
         <div layout="row">
           <md-input-container flex>
             <label>Title</label>
-            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" required name="title" ng-disabled="bookDialogCtrl.formDisabled" ng-model="bookDialogCtrl.formData.title">
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" required name="title" ng-model="bookDialogCtrl.formData.title">
             <div ng-messages="bookForm.title.$error">
               <div ng-message="required">This is required.</div>
             </div>
