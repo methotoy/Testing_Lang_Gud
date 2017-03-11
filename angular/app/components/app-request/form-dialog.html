@@ -8,10 +8,10 @@
 
     <md-dialog-content>
       <div layout-padding>
-        <div layout="column">
-          <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.title" md-require-match md-floating-label="Book Title">
+        <div layout="column" ng-if="{{ requestDialogCtrl.selectedData.length == 0 }}">
+          <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.display" md-require-match md-floating-label="Book Title">
             <md-item-template>
-              <span md-highlight-text="requestDialogCtrl.searchText">{{item.title}}</span>
+              <span md-highlight-text="requestDialogCtrl.searchText">{{item.display}}</span>
             </md-item-template>
             <md-not-found>
               No book matching "{{requestDialogCtrl.searchText}}" were found.
@@ -38,7 +38,7 @@
     <md-dialog-actions layout="row">
       <md-button type="button" ng-click="requestDialogCtrl.cancel()">Cancel</md-button>
 
-      <md-button class="md-primary md-raised" ng-disabled="requestForm.$invalid" type="submit">Request</md-button>
+      <md-button class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

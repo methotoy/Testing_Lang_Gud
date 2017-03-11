@@ -16,7 +16,7 @@ class BookController extends ModelController
         } else {
             switch ( $option ) {
                 case 'available':
-                    $data = $this->book->where('available',0)->get();
+                    $data = $this->book->where('available',1)->get();
                     break;
             }
         }
@@ -30,6 +30,7 @@ class BookController extends ModelController
     			return response()->success('Success');
     		}
     	}
+        
     	return response()->error('Error');
     }
 
@@ -65,7 +66,7 @@ class BookController extends ModelController
             return response()->success('Success');
         }
 
-        return response()->json(compact("request"));
+        return response()->error('Error');
     }
 
 }

@@ -34,11 +34,16 @@ class AppRequestController{
         }.bind(this));
     }
 
-    action( ev ) {
+    action( ev, data = null ) {
         this.$mdDialog.show({
+            resolve : {
+                getData : function(){
+                    return data;
+                }
+            },  
             controller          : RequestDialogController,
             controllerAs        : 'requestDialogCtrl',
-            templateUrl         : './views/app/components/app-request/form-dialog.html',
+            templateUrl         : './views/app/components/app-request/view-dialog.html',
             parent              : angular.element(document.body),
             targetEvent         : ev,
             clickOutsideToClose : false,
@@ -60,8 +65,10 @@ class AppRequestController{
 
 class RequestDialogController {
 
-    constructor( $mdDialog, API, ToastService, $q, $timeout ){
+    constructor( getData, $mdDialog, API, ToastService, $q, $timeout ){
         'ngInject';
+
+        this.selectedData = getData;
 
         this.API = API;
 
@@ -75,11 +82,11 @@ class RequestDialogController {
 
         this.$timeout = $timeout;
 
-        this.dialogTitle = 'Book Request Form';
+        this.dialogTitle = this.selectedData === null? 'Book Request Form' : 'Book Request Information';
 
         this.formDisabled = false;
 
-        this.noCache = true;
+        this.noCache = false;
 
         this.selectedItem = null;
 
@@ -92,20 +99,18 @@ class RequestDialogController {
     }
 
     save(){
-        // this.formDisabled = true;
+        this.formDisabled = true;
 
-        console.log( this.formData );
-
-        // this.API.all('/request/save').post(this.formData).then(
-        //     function() {
-        //         this.$mdDialog.hide();
-        //         this.ToastService.show(this.toastMessageSuccess);
-        //     }.bind(this),
-        //     function() {
-        //         this.$mdDialog.cancel();
-        //         this.ToastService.error(this.toastMessageError);
-        //     }.bind(this)
-        // );
+        this.API.all('/request/save').post(this.formData).then(
+            function() {
+                this.$mdDialog.hide();
+                this.ToastService.show('Request successfully send.');
+            }.bind(this),
+            function() {
+                this.$mdDialog.cancel();
+                this.ToastService.error('Failed to send a request!');
+            }.bind(this)
+        );
     }
 
     createFilterFor( query ) {
@@ -128,7 +133,14 @@ class RequestDialogController {
     }
 
     fetchBookList() {
-        this.API.all('book/list/available').post().then(function(response){
+        this.API.all('book/list/available').post().then(function( response ){
+            let count = 0;
+            angular.forEach(response.data, function( value ) {
+                response.data[count].display = value.title;
+                response.data[count].title = value.title.toLowerCase();
+                count++;
+            });
+            
             this.books = response.data;
         }.bind(this));
     }
