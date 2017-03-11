@@ -34,13 +34,8 @@ class AppRequestController{
         }.bind(this));
     }
 
-    action( ev, data = null ) {
+    action( ev ) {
         this.$mdDialog.show({
-            resolve : {
-                getData : function(){
-                    return data;
-                }
-            }, 
             controller          : RequestDialogController,
             controllerAs        : 'requestDialogCtrl',
             templateUrl         : './views/app/components/app-request/form-dialog.html',
@@ -65,12 +60,12 @@ class AppRequestController{
 
 class RequestDialogController {
 
-    constructor( getData, $mdDialog, API, ToastService, $q, $timeout ){
+    constructor( $mdDialog, API, ToastService, $q, $timeout ){
         'ngInject';
 
-        this.selectedData = getData;
-
         this.API = API;
+
+        this.formData = {};
 
         this.ToastService = ToastService;
 
@@ -80,11 +75,9 @@ class RequestDialogController {
 
         this.$timeout = $timeout;
 
-        this.dialogTitle = this.selectedData === null? 'Book Request Form' : 'Book Request Information';
+        this.dialogTitle = 'Book Request Form';
 
         this.formDisabled = false;
-
-        this.editMode = false;
 
         this.noCache = true;
 
@@ -96,6 +89,23 @@ class RequestDialogController {
 
         this.fetchBookList();
 
+    }
+
+    save(){
+        // this.formDisabled = true;
+
+        console.log( this.formData );
+
+        // this.API.all('/request/save').post(this.formData).then(
+        //     function() {
+        //         this.$mdDialog.hide();
+        //         this.ToastService.show(this.toastMessageSuccess);
+        //     }.bind(this),
+        //     function() {
+        //         this.$mdDialog.cancel();
+        //         this.ToastService.error(this.toastMessageError);
+        //     }.bind(this)
+        // );
     }
 
     createFilterFor( query ) {

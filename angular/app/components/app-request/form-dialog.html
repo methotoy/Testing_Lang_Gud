@@ -1,5 +1,5 @@
-<md-dialog aria-label="Book Request Information" ng-style="{'min-width':'30%'}">
-  <form ng-cloak name="bookRequestForm" ng-submit="requestDialogCtrl.save()">
+<md-dialog aria-label="Book Request Form" ng-style="{'min-width':'30%'}">
+  <form ng-cloak name="requestForm" ng-submit="requestDialogCtrl.save()">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>{{ requestDialogCtrl.dialogTitle }}</h2>
@@ -9,21 +9,25 @@
     <md-dialog-content>
       <div layout-padding>
         <div layout="column">
-          <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.selectedItem" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.title" md-require-match md-floating-label="Book Title">
+          <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.title" md-require-match md-floating-label="Book Title">
             <md-item-template>
               <span md-highlight-text="requestDialogCtrl.searchText">{{item.title}}</span>
             </md-item-template>
-            <div ng-messages="bookRequestForm.book_title.$error" ng-if="bookRequestForm.book_title.$touched">
+            <md-not-found>
+              No book matching "{{requestDialogCtrl.searchText}}" were found.
+            </md-not-found>
+            <div ng-messages="requestForm.book_title.$error" ng-if="requestForm.book_title.$touched">
               <div ng-message="required">You <b>must</b> choose a book.</div>
               <div ng-message="md-require-match">Please select an existing book.</div>
               <div ng-message="minlength">Your entry is not long enough.</div>
               <div ng-message="maxlength">Your entry is too long.</div>
             </div>
           </md-autocomplete>
+
           <md-input-container flex>
             <label>Days</label>
-            <input required type="text"/>
-            <div ng-messages="bookForm.author.$error">
+            <input ng-disabled="requestDialogCtrl.formDisabled" required type="number" min="1" name="days" ng-model="requestDialogCtrl.formData.days">
+            <div ng-messages="requestForm.days.$error">
               <div ng-message="required">This is required.</div>
             </div>
           </md-input-container>
@@ -32,9 +36,9 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button ng-disabled="requestDialogCtrl.formDisabled" type="button" ng-click="requestDialogCtrl.cancel()">Cancel</md-button>
+      <md-button type="button" ng-click="requestDialogCtrl.cancel()">Cancel</md-button>
 
-      <md-button ng-if="!requestDialogCtrl.editMode" class="md-primary md-raised" ng-disabled="bookForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
+      <md-button class="md-primary md-raised" ng-disabled="requestForm.$invalid" type="submit">Request</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>
