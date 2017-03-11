@@ -22,6 +22,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
 
@@ -49,6 +50,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ValidationException && $this->isApiRoute($request)) {
             return response()->error($exception->validator, 422);
+        }
+
+        if ($exception instanceof TokenExpiredException || $exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+            return redirect('/#!/login')->withErrors(["token_error" => 'Sorry, your session seems to have expired. Please try again.']);
         }
 
         return parent::render($request, $exception);

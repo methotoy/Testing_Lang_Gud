@@ -43,7 +43,7 @@ class AppRequestController{
             },  
             controller          : RequestDialogController,
             controllerAs        : 'requestDialogCtrl',
-            templateUrl         : './views/app/components/app-request/view-dialog.html',
+            templateUrl         : './views/app/components/app-request/form-dialog.html',
             parent              : angular.element(document.body),
             targetEvent         : ev,
             clickOutsideToClose : false,
@@ -84,7 +84,7 @@ class RequestDialogController {
 
         this.dialogTitle = this.selectedData === null? 'Book Request Form' : 'Book Request Information';
 
-        this.formDisabled = false;
+        this.formDisabled = this.selectedData === null? false : true;
 
         this.noCache = false;
 

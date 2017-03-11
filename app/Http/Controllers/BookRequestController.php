@@ -15,24 +15,10 @@ class BookRequestController extends ModelController
             $count = 0;
 
             foreach( $data as $list ) {
-                $data[$count]->book_info = $this->book->find($list->book_id);
-                switch ( $list->request_status ) {
-                    case 0:
-                        $data[$count]->request_status = 'Pending';
-                        break;
+                $data[$count]->book_info = $this->book->find( $list->book_id );
+                    
+                $data[$count]->approver_info = $this->user->find( $list->approved_by );
 
-                    case 1:
-                        $data[$count]->request_status = 'Approved';
-                        break;
-
-                    case 2:
-                        $data[$count]->request_status = 'Disapproved';
-                        break;
-
-                    case 3:
-                        $data[$count]->request_status = 'Cancelled';
-                        break;
-                }
                 $count++;
             }
         }

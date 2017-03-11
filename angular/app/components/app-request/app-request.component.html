@@ -102,7 +102,13 @@
 			              <td md-cell>{{list.id}}</td>
 			              <td md-cell>{{list.book_info.title | truncateString: 50}}</td>
 			              <td md-cell>{{list.days}}</td>
-			              <td md-cell>{{list.request_status}}</td>
+			              <td md-cell>
+			              	<md-icon ng-if="list.request_status === 0"> autorenew </md-icon>
+			              	<md-icon ng-if="list.request_status === 1"> thumb_up </md-icon>
+			              	<md-icon ng-if="list.request_status === 2"> thumb_down </md-icon>
+			              	<md-icon ng-if="list.request_status === 3"> cancel </md-icon>
+			              	{{list.request_status | requestStatus}}
+			              </td>
 			              <td md-cell>{{list.created_at | amCalendar }}</td>
 			              <td md-cell style="text-align:center;">
 			                <md-button class="md-icon-button" ng-click="requestCtrl.action($event, list);"> 

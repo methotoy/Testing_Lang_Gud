@@ -8,7 +8,7 @@
 
     <md-dialog-content>
       <div layout-padding>
-        <div layout="column" ng-if="{{ requestDialogCtrl.selectedData.length == 0 }}">
+        <div ng-if="requestDialogCtrl.selectedData === null">
           <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.display" md-require-match md-floating-label="Book Title">
             <md-item-template>
               <span md-highlight-text="requestDialogCtrl.searchText">{{item.display}}</span>
@@ -24,7 +24,7 @@
             </div>
           </md-autocomplete>
 
-          <md-input-container flex>
+          <md-input-container class="md-block">
             <label>Days</label>
             <input ng-disabled="requestDialogCtrl.formDisabled" required type="number" min="1" name="days" ng-model="requestDialogCtrl.formData.days">
             <div ng-messages="requestForm.days.$error">
@@ -32,13 +32,53 @@
             </div>
           </md-input-container>
         </div>
+
+        <div ng-if="requestDialogCtrl.selectedData !== null">
+          <div layout="row">
+            <md-input-container class="md-block">
+              <label>Book Title</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.book_info.title">
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <label>Days</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.days">
+            </md-input-container>
+          </div>
+
+          <div layout="row">
+            <md-input-container>
+              <label>Request Status</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.request_status | requestStatus">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Date Requested</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.created_at | amCalendar">
+            </md-input-container>
+          </div>
+
+          <div layout="row">
+            <md-input-container>
+              <label>Approved By</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.approver_info.username">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Date Approved</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.approved_at | amCalendar">
+            </md-input-container>
+          </div>
+        </div>
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button type="button" ng-click="requestDialogCtrl.cancel()">Cancel</md-button>
+      <md-button ng-if="requestDialogCtrl.selectedData !== null" type="button" ng-click="requestDialogCtrl.cancel()">Close</md-button>
+      
+      <md-button ng-if="requestDialogCtrl.selectedData === null" type="button" ng-click="requestDialogCtrl.cancel()">Cancel</md-button>
 
-      <md-button class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
+      <md-button ng-if="requestDialogCtrl.selectedData === null" class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>
