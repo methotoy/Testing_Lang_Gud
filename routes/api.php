@@ -37,9 +37,9 @@ Route::group(['middleware' => ['api']], function () {
 
 	// Book Request Group
 	Route::group(['prefix' => 'request'], function () {
-		Route::post('list', 'BookRequestController@list');
+		Route::post('list/{option?}', 'BookRequestController@list');
 		Route::post('delete', 'BookRequestController@delete');
-		Route::post('save', 'BookRequestController@save');
+		Route::post('save/{option?}', 'BookRequestController@save');
 	});
 
 });

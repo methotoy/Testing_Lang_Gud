@@ -7,6 +7,8 @@ class AppRequestController{
         this.$mdDialog = $mdDialog;
 
         this.ToastService = ToastService;
+
+        this.filterStatus = null;
     }
 
     $onInit(){
@@ -19,18 +21,22 @@ class AppRequestController{
         this.requestList = {};
 
         this.fetchRequestList();
-
-        this.filter = null;
     }
 
     filterTable( option = null ) {
-        this.filter = option;
+        this.filterStatus = option;
+        let url = option === null? 'request/list' : 'request/list/' + option;
+
+        this.API.all(url).post().then(function(response){
+            this.requestList = response;
+        }.bind(this));
     }
 
     fetchRequestList() {
-        this.API.all('request/list').post().then(function(response){
+        let url = this.filterStatus === null? 'request/list' : 'request/list/' + this.filterStatus;
+
+        this.API.all(url).post().then(function(response){
             this.requestList = response;
-            this.filter = null;
         }.bind(this));
     }
 
@@ -65,10 +71,11 @@ class AppRequestController{
 
 class RequestDialogController {
 
-    constructor( getData, $mdDialog, API, ToastService, $q, $timeout ){
+    constructor( getData, $mdDialog, API, ToastService, $q, $timeout, $filter ){
         'ngInject';
 
         this.selectedData = getData;
+        console.log(getData);
 
         this.API = API;
 
@@ -82,9 +89,20 @@ class RequestDialogController {
 
         this.$timeout = $timeout;
 
+        this.$filter = $filter;
+
         this.dialogTitle = this.selectedData === null? 'Book Request Form' : 'Book Request Information';
 
-        this.formDisabled = this.selectedData === null? false : true;
+        if( this.selectedData !== null ) {
+
+            this.selectedData.date_filed = this.$filter('amCalendar')(this.selectedData.created_at);
+
+            this.selectedData.status = this.$filter('requestStatus')(this.selectedData.request_status);
+            
+            this.selectedData.date_approved = this.$filter('amCalendar')(this.selectedData.approved_at);
+
+            this.selectedData.date_cancelled = this.$filter('amCalendar')(this.selectedData.updated_at);
+        }
 
         this.noCache = false;
 
@@ -94,11 +112,30 @@ class RequestDialogController {
 
         this.books = null;
 
+        this.cancelRequest = false;
+
+        this.formDisabled = false;
+
         this.fetchBookList();
 
     }
 
-    save(){
+    cancelRequestConfirm( data ) {
+        this.formDisabled = true;
+
+        this.API.all('/request/save/cancel').post(data).then(
+            function() {
+                this.$mdDialog.hide();
+                this.ToastService.show('Request successfully cancelled.');
+            }.bind(this),
+            function() {
+                this.$mdDialog.cancel();
+                this.ToastService.error('Failed to cancel the request!');
+            }.bind(this)
+        );
+    }
+
+    save() {
         this.formDisabled = true;
 
         this.API.all('/request/save').post(this.formData).then(
