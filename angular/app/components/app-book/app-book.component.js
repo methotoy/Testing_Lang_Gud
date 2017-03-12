@@ -19,6 +19,8 @@ class AppBookController{
         this.bookList = {};
 
         this.fetchBookList();
+
+        this.filter = '';
     }
 
     fetchBookList() {
@@ -41,7 +43,15 @@ class AppBookController{
             targetEvent         : ev,
             clickOutsideToClose : false,
             fullscreen          : true,
-        });
+            escapeToClose       : false
+        }).then(
+            function(){
+                this.fetchBookList();
+                this.hide();
+            }.bind(this),
+            function(){
+            }.bind(this)
+        );
     }
 
     hide(){
@@ -53,7 +63,6 @@ class AppBookController{
     }
 
     delete(ev, data = null) {
-        console.log(ev);
         let confirm = this.$mdDialog.confirm()
             .title('Attention!')
             .textContent('You are about to delete book \''+data.title+'\'')                
@@ -78,6 +87,7 @@ class AppBookController{
 }
 
 class BookDialogController {
+
     constructor( getData, $mdDialog, API, ToastService ){
         'ngInject';
 
@@ -92,6 +102,39 @@ class BookDialogController {
         this.dialogTitle = "Book Information";
 
         this.editMode = this.selectedData != null? true : false;
+
+        this.formData = this.selectedData == null? {} : this.selectedData;
+
+        this.formDisabled = false;
+
+        this.updateData = false;
+    }
+
+    save() {
+        this.formDisabled = true;
+        
+        this.toastMessageSuccess = this.updateData? 'Book successfully updated.' : 'Book successfully added.';
+
+        this.toastMessageError = this.updateData? 'Failed to update book!' : 'Failed to add book!';
+
+        this.API.all('/book/save').post(this.formData).then(
+            function() {
+                this.$mdDialog.hide();
+                this.ToastService.show(this.toastMessageSuccess);
+            }.bind(this),
+            function() {
+                this.$mdDialog.cancel();
+                this.ToastService.error(this.toastMessageError);
+            }.bind(this)
+        );
+    }
+
+    edit() {
+        this.formData.date_received = this.formData.date_received != null? new Date(this.formData.date_received) : null;
+
+        this.editMode = false;
+
+        this.updateData = true;
     }
 
     hide(){

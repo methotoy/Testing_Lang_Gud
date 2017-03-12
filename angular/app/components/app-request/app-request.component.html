@@ -1,0 +1,136 @@
+<md-content layout="column" flex>
+	<md-card class="Content-container">
+		<md-tabs md-dynamic-height md-border-bottom>
+			<md-tab>
+				<md-tab-label>
+					<span ng-style="{'color' : 'white'}"> Book Request </span>
+				</md-tab-label>
+
+				<md-tab-body>
+			  	<md-card>
+				   <md-toolbar class="md-table-toolbar md-default">
+			        <div class="md-toolbar-tools">
+			          <div flex>
+			            <!-- <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
+			              <label>Search</label>
+			              <md-icon> search </md-icon>
+			              <input ng-model="requestCtrl.filter" type="text">
+			            </md-input-container> -->
+			          </div>
+
+			          <md-menu>
+				          <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+				            <md-icon> filter_list </md-icon>
+				            <md-tooltip>
+											Filter : {{ requestCtrl.filter === null? 'All' : requestCtrl.filter }}
+										</md-tooltip>
+				          </md-button>
+
+				          <md-menu-content width="4">
+				          	<md-menu-item>
+						          <md-button ng-click="requestCtrl.filterTable()">
+						            All
+						          </md-button>
+						        </md-menu-item>
+
+						        <md-menu-item>
+						          <md-button ng-click="requestCtrl.filterTable('Pending')">
+						            Pending
+						          </md-button>
+						        </md-menu-item>
+
+						        <md-menu-item>
+						          <md-button ng-click="requestCtrl.filterTable('Approved')">
+						            Approved
+						          </md-button>
+						        </md-menu-item>
+
+						        <md-menu-item>
+						          <md-button ng-click="requestCtrl.filterTable('Disapproved')">
+						            Disapproved
+						          </md-button>
+						        </md-menu-item>
+
+						        <md-menu-item>
+						          <md-button ng-click="requestCtrl.filterTable('Cancelled')">
+						            Cancelled
+						          </md-button>
+						        </md-menu-item>
+					        </md-menu-content>
+				        </md-menu>
+
+			          <md-button class="md-icon-button" ng-click="requestCtrl.action($event)">
+			            <md-icon> fiber_new </md-icon>
+			            <md-tooltip>
+										Log New Request
+									</md-tooltip>
+			          </md-button>
+
+			          <md-button class="md-icon-button" ng-click="requestCtrl.fetchRequestList()">
+			            <md-icon> refresh </md-icon>
+			            <md-tooltip>
+										Refresh Table
+									</md-tooltip>
+			          </md-button>
+			        </div>
+			      </md-toolbar>
+			    </md-card>
+
+			    <md-card>      
+			      <md-table-container>
+			        <table md-table>
+			        	<col width="10%">
+						    <col width="40%">
+						    <col width="5%">
+						    <col width="15%">
+						    <col width="20%">
+						    <col width="10%">
+
+			          <thead md-head md-order="requestCtrl.query.order" md-on-reorder="requestCtrl.paginateRequestList">
+			            <tr md-row>
+			              <th md-column md-order-by="id">ID</th>
+			              <th md-column md-order-by="book.title">Book Title</th>
+			              <th md-column md-order-by="request_status">Days</th>
+			              <th md-column md-order-by="days">Status</th>
+			              <th md-column md-order-by="created_at">Date Requested</th>
+			              <th md-column ng-style="{'text-align' : 'center'}">Action</th>
+			            </tr>
+			          </thead>
+
+			          <tbody md-body>
+			            <tr md-row ng-repeat="list in requestCtrl.requestList.data | filter: requestCtrl.filter | orderBy: requestCtrl.query.order | limitTo: requestCtrl.query.limit : (requestCtrl.query.page -1) * requestCtrl.query.limit">
+			              <td md-cell>{{list.id}}</td>
+			              <td md-cell>{{list.book_info.title | truncateString: 50}}</td>
+			              <td md-cell>{{list.days}}</td>
+			              <td md-cell>
+			              	<md-icon ng-if="list.request_status === 0"> autorenew </md-icon>
+			              	<md-icon ng-if="list.request_status === 1"> thumb_up </md-icon>
+			              	<md-icon ng-if="list.request_status === 2"> thumb_down </md-icon>
+			              	<md-icon ng-if="list.request_status === 3"> cancel </md-icon>
+			              	{{list.request_status | requestStatus}}
+			              </td>
+			              <td md-cell>{{list.created_at | amCalendar }}</td>
+			              <td md-cell style="text-align:center;">
+			                <md-button class="md-icon-button" ng-click="requestCtrl.action($event, list);"> 
+			                  <md-icon md-font-set="material-icons"> description </md-icon>
+			                  <md-tooltip>
+													View Request
+												</md-tooltip>
+			                </md-button>
+			              </td>
+			            </tr>
+
+			            <tr md-row ng-if="requestCtrl.requestList.data.length == 0">
+			            	<td md-cell colspan="7" ng-style="{'text-align' : 'center', 'font-weight' : 'bold', 'font-size' : '20px'}">Currently you have no request available.</td>
+			            </tr>            
+			          </tbody>
+			        </table>
+			      </md-table-container>
+
+			      <md-table-pagination md-limit="requestCtrl.query.limit" md-limit-options="[5, 10, 15]" md-page="requestCtrl.query.page" md-total="{{requestCtrl.requestList.data.length}}" md-on-paginate="requestCtrl.paginateRequestList" md-page-select></md-table-pagination>
+			    </md-card>
+		 		</md-tab-body>
+	    </md-tab>
+		</md-tabs>
+	</md-card>
+</md-content>

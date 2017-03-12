@@ -16,6 +16,6 @@ angular.module('app.config', []);
 angular.module('app.directives', []);
 angular.module('app.components', [
 	'ui.router', 'ngMaterial', 'angular-loading-bar', 'md.data.table',
-	'restangular', 'ngStorage', 'satellizer', 'ngMessages'
+	'restangular', 'ngStorage', 'satellizer', 'ngMessages', 'angularMoment'
 ]);
 

@@ -1,9 +1,33 @@
-<md-content flex layout-padding class="md-primary">
-    <div layout="row">
-        <div flex="50" flex-offset="5" >
-            <div layout="row" layout-align="space-between">
-                <img src="img/d.png" ui-sref="app.body" width="50" height="50"/>
-            </div>
-        </div>
+<md-content flex>
+  <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+    	<div layout="row" class="md-toolbar-tools">
+        <div flex></div>
+        <md-menu md-position-mode="target-right target" >
+	        <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+	          <md-icon md-font-set="material-icons"> settings </md-icon>
+	        </md-button>
+
+	        <md-menu-content width="4">
+            <!-- <md-menu-item>
+              <md-button ng-click="null">
+                <div layout="row" flex>
+                	<md-icon md-font-set="material-icons"> account_circle </md-icon>
+                  <p flex>Profile</p>
+                </div>
+              </md-button>
+            </md-menu-item> -->
+
+            <md-menu-item>
+              <md-button ng-click="headerCtrl.logout()">
+                <div layout="row" flex>
+                	<md-icon md-font-set="material-icons"> power_settings_new </md-icon>
+                  <p flex>Log Out</p>
+                </div>
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
     </div>
+  </md-toolbar>
 </md-content>

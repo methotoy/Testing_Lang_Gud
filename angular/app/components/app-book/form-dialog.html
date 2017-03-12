@@ -1,4 +1,4 @@
-<md-dialog aria-label="Book Information">
+<md-dialog aria-label="Book Information" ng-style="{'min-width':'50%'}">
   <form ng-cloak name="bookForm" ng-submit="bookDialogCtrl.save()">
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -7,27 +7,128 @@
     </md-toolbar>
 
     <md-dialog-content>
-      <div class="md-dialog-content" ng-if="!bookDialogCtrl.editMode">
+      <div layout-padding>
+
         <div layout="row">
-          <md-input-container class="md-block" flex>
+          <md-input-container flex>
             <label>Title</label>
-            <input ng-required="true" class="form-control" name="title" ng-model="title">
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" required name="title" ng-model="bookDialogCtrl.formData.title">
             <div ng-messages="bookForm.title.$error">
               <div ng-message="required">This is required.</div>
             </div>
           </md-input-container>
 
+          <div flex="5"></div>
+
           <md-input-container flex>
             <label>Author</label>
-            <input required type="text" name="author">
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" required name="author" ng-model="bookDialogCtrl.formData.author">
+            <div ng-messages="bookForm.author.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
           </md-input-container>
-        </div>                
-       </div>
+
+          <div flex="5"></div>
+
+          <md-input-container ng-if="bookDialogCtrl.editMode" flex>
+            <label>Category</label>
+            <input ng-readonly="bookDialogCtrl.editMode" required name="category" ng-model="bookDialogCtrl.formData.category">
+          </md-input-container>
+
+          <md-input-container ng-if="!bookDialogCtrl.editMode" flex>
+            <label>Category</label>
+            <md-select ng-disabled="bookDialogCtrl.formDisabled" required name="category" ng-model="bookDialogCtrl.formData.category">
+              <md-option value="TEST"> TEST </md-option>
+              <md-option value="TEST2"> TEST2 </md-option>
+            </md-select>
+            <div ng-messages="bookForm.category.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container flex>
+            <label>Edition</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" name="edition" ng-model="bookDialogCtrl.formData.edition">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container flex>
+            <label>Pages</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" type="number" min="0" name="pages" ng-model="bookDialogCtrl.formData.pages">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container flex>
+            <label>Year</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" type="number" name="year" min="1800" ng-model="bookDialogCtrl.formData.year">
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container flex>
+            <label>Class</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" name="class" ng-model="bookDialogCtrl.formData.class">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container flex>
+            <label>Volume</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" type="number" min="0" name="volume" ng-model="bookDialogCtrl.formData.volume">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container ng-if="bookDialogCtrl.editMode" flex>
+            <label>Date Received</label>
+            <input ng-readonly="bookDialogCtrl.editMode" name="date_received" ng-model="bookDialogCtrl.formData.date_received">
+          </md-input-container>
+
+          <md-input-container ng-if="!bookDialogCtrl.editMode" flex>
+            <label>Date Received</label>
+            <md-datepicker ng-disabled="bookDialogCtrl.formDisabled" ng-model="bookDialogCtrl.formData.date_received"></md-datepicker>
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container flex>
+            <label>Source of Fund</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" name="source_of_fund" ng-model="bookDialogCtrl.formData.source_of_fund">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container flex>
+            <label>Cost Price</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" type="number" min="0" step="0.01" name="cost_price" ng-model="bookDialogCtrl.formData.cost_price">
+          </md-input-container>
+
+          <div flex="5"></div>
+
+          <md-input-container flex>
+            <label>Publisher</label>
+            <input ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" name="publisher" ng-model="bookDialogCtrl.formData.publisher">
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container flex>
+            <label>Remarks</label>
+            <textarea ng-disabled="bookDialogCtrl.formDisabled" ng-readonly="bookDialogCtrl.editMode" ng-model="bookDialogCtrl.formData.remarks" md-maxlength="150" rows="1" md-select-on-focus></textarea>
+          </md-input-container>
+        </div>
+      </div>
     </md-dialog-content>
 
-    <md-dialog-actions>
-      <md-button type="button" ng-click="bookDialogCtrl.cancel()">Cancel</md-button>
-      <md-button class="md-primary md-raised" ng-disabled="bookForm.$invalid" type="submit">{{bookDialogCtrl.selectedData == null? 'Save': 'Update'}}</md-button>
+    <md-dialog-actions layout="row">
+      <md-button ng-disabled="bookDialogCtrl.formDisabled" type="button" ng-click="bookDialogCtrl.cancel()">Cancel</md-button>
+      <md-button ng-if="!bookDialogCtrl.editMode && !bookDialogCtrl.updateData" class="md-primary md-raised" ng-disabled="bookForm.$invalid || bookDialogCtrl.formDisabled" type="submit">Save</md-button>
+      <md-button ng-if="!bookDialogCtrl.editMode && bookDialogCtrl.updateData" class="md-primary md-raised" ng-disabled="bookForm.$invalid || bookDialogCtrl.formDisabled" type="submit">Update</md-button>
+      <md-button ng-if="bookDialogCtrl.editMode" class="md-primary md-raised" ng-click="bookDialogCtrl.edit()">Edit</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

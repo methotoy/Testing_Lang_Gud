@@ -1,19 +1,11 @@
 @import "../../../material/project";
 
-.Footer{
-    text-align: center;
-    background-color: $background;
-    border-top: 1px solid $border;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    color: $grey;
-    font-weight: 300;
-}
-
 .Footer-text{
     padding-top: 10px;
+    text-align: center;
     opacity: 0.8;
     color: $grey;
+    margin-bottom: 10px;
 }
 
 .Footer-link{
@@ -24,9 +16,4 @@
 
 .Footer-link:hover{
     text-decoration: underline;
-}
-
-.Footer-logo{
-    width: 49px;
-    height: 46px;
 }

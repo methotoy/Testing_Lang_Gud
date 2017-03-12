@@ -1,27 +1,34 @@
 class LoginFormController {
-	constructor($auth, ToastService) {
+	constructor($auth, ToastService, $state) {
 		'ngInject';
 
 		this.$auth = $auth;
+
 		this.ToastService = ToastService;
+
+		this.$state = $state;
 	}
 
     $onInit(){
-        this.email = '';
+        this.username = '';
         this.password = '';
+
+        if(this.$auth.isAuthenticated()){
+			this.$state.go('app.body');
+		}
     }
 
 	login() {
 		let user = {
-			email: this.email,
+			username: this.username,
 			password: this.password
 		};
 
 		this.$auth.login(user)
 			.then((response) => {
 				this.$auth.setToken(response.data);
-
 				this.ToastService.show('Logged in successfully.');
+				this.$state.go('app.body');
 			})
 			.catch(this.failedLogin.bind(this));
 	}
