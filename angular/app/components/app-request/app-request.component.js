@@ -1,5 +1,5 @@
 class AppRequestController{
-    constructor( API, $mdDialog, ToastService ){
+    constructor( API, $mdDialog, ToastService, DialogService ){
         'ngInject';
 
         this.API = API;
@@ -7,6 +7,8 @@ class AppRequestController{
         this.$mdDialog = $mdDialog;
 
         this.ToastService = ToastService;
+
+        this.DialogService = DialogService;
 
         this.filterStatus = null;
     }
@@ -41,21 +43,18 @@ class AppRequestController{
     }
 
     action( ev, data = null ) {
-        this.$mdDialog.show({
-            resolve : {
-                getData : function(){
-                    return data;
-                }
-            },  
+        let option = {
+            resolve : { getData : function(){ return data; } },
             controller          : RequestDialogController,
             controllerAs        : 'requestDialogCtrl',
-            templateUrl         : './views/app/components/app-request/form-dialog.html',
             parent              : angular.element(document.body),
             targetEvent         : ev,
             clickOutsideToClose : false,
             fullscreen          : true,
             escapeToClose       : false
-        }).then(
+        };
+
+        this.DialogService.fromTemplate('book-request', option).then(
             function(){
                 this.fetchRequestList();
             }.bind(this),
@@ -75,7 +74,6 @@ class RequestDialogController {
         'ngInject';
 
         this.selectedData = getData;
-        console.log(getData);
 
         this.API = API;
 

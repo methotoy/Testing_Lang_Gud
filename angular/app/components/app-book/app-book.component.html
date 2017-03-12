@@ -1,79 +1,84 @@
-<div ng-cloak class="container" md-them="altTheme">
-  <md-content layout="column" flex>
-    <md-card>
-	   <md-toolbar class="md-table-toolbar md-default">
-        <div class="md-toolbar-tools">
-          <div flex>
-            <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
-              <label>Search</label>
-              <md-icon> search </md-icon>
-              <input ng-model="bookCtrl.filter" type="text">
-            </md-input-container>
-          </div>
-          <md-button class="md-icon-button" ng-click="bookCtrl.action($event)">
-            <md-icon> add_circle_outline </md-icon>
-            <md-tooltip>
-              Add New Book
-            </md-tooltip>
-          </md-button>
-          <md-button class="md-icon-button" ng-click="bookCtrl.fetchBookList()">
-            <md-icon> refresh </md-icon>
-            <md-tooltip>
-              Refresh Table
-            </md-tooltip>
-          </md-button>
-        </div>
-      </md-toolbar>
-    </md-card>
+<md-content ng-cloak layout="column" flex>
+  <md-card class="Content-container">
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab>
+        <md-tab-label>
+          <span ng-style="{'color' : 'white'}"> Book </span>
+        </md-tab-label>
 
-    <md-card>      
-      <md-table-container>
-        <table md-table>
+        <md-tab-body>
+          <md-card>
+      	   <md-toolbar class="md-table-toolbar md-default">
+              <div class="md-toolbar-tools">
+                <div flex>
+                  <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
+                    <label>Search</label>
+                    <md-icon> search </md-icon>
+                    <input ng-model="bookCtrl.filter" type="text">
+                  </md-input-container>
+                </div>
 
-        	<col width="5%">
-			    <col width="40%">
-			    <col width="20%">
-			    <col width="20%">
-			    <col width="20%">
-
-          <thead md-head md-order="bookCtrl.query.order" md-on-reorder="bookCtrl.paginateBookList">
-            <tr md-row>
-              <th md-column md-order-by="id">Accession Number</span></th>
-              <th md-column md-order-by="title">Title</span></th>
-              <th md-column md-order-by="author">Author</span></th>
-              <th md-column md-order-by="category">Category</span></th>
-              <th md-column style="text-align:center;">Action</th>
-            </tr>
-          </thead>
-
-          <tbody md-body>
-            <tr md-row ng-repeat="list in bookCtrl.bookList.data | filter: bookCtrl.filter | orderBy: bookCtrl.query.order | limitTo: bookCtrl.query.limit : (bookCtrl.query.page -1) * bookCtrl.query.limit">
-              <td md-cell>{{list.id}}</td>
-              <td md-cell>{{list.title}}</td>
-              <td md-cell>{{list.author}}</td>
-              <td md-cell>{{list.category}}</td>
-              <td md-cell style="text-align:center;">
-              	<md-button  class="md-icon-button" ng-click="bookCtrl.delete($event, list);"> 
-                  <md-icon md-font-set="material-icons">delete</md-icon>
+                <md-button class="md-icon-button" ng-click="bookCtrl.fetchBookList()">
+                  <md-icon> refresh </md-icon>
                   <md-tooltip>
-                    Delete
+                    Refresh Table
                   </md-tooltip>
                 </md-button>
-                <md-button class="md-icon-button" ng-click="bookCtrl.action($event, list);"> 
-                  <md-icon md-font-set="material-icons">create</md-icon>
-                  <md-tooltip>
-                    Edit
-                  </md-tooltip>
-                </md-button>
-              </td>
-            </tr>
-            
-          </tbody>
-        </table>
+              </div>
+            </md-toolbar>
+          </md-card>
 
-      </md-table-container>
+          <md-card>      
+            <md-table-container>
+              <table md-table>
 
-      <md-table-pagination md-limit="bookCtrl.query.limit" md-limit-options="[5, 10, 15]" md-page="bookCtrl.query.page" md-total="{{bookCtrl.bookList.data.length}}" md-on-paginate="bookCtrl.paginateBookList" md-page-select></md-table-pagination>
-    </md-card>
-	</md-content>
-</div>
+              	<col width="5%">
+      			    <col width="40%">
+      			    <col width="20%">
+      			    <col width="20%">
+      			    <col width="20%">
+
+                <thead md-head md-order="bookCtrl.query.order" md-on-reorder="bookCtrl.paginateBookList">
+                  <tr md-row>
+                    <th md-column md-order-by="id">Accession Number</span></th>
+                    <th md-column md-order-by="title">Title</span></th>
+                    <th md-column md-order-by="author">Author</span></th>
+                    <th md-column md-order-by="category">Category</span></th>
+                    <th md-column style="text-align:center;">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody md-body>
+                  <tr md-row ng-repeat="list in bookCtrl.bookList.data | filter: bookCtrl.filter | orderBy: bookCtrl.query.order | limitTo: bookCtrl.query.limit : (bookCtrl.query.page -1) * bookCtrl.query.limit">
+                    <td md-cell>{{list.id}}</td>
+                    <td md-cell>{{list.title}}</td>
+                    <td md-cell>{{list.author}}</td>
+                    <td md-cell>{{list.category}}</td>
+                    <td md-cell style="text-align:center;">
+                    	<md-button ng-if="list.available === 1" class="md-icon-button" ng-click="bookCtrl.request($event, list);"> 
+                        <md-icon md-font-set="material-icons">assignment</md-icon>
+                        <md-tooltip>
+                          Log New Request
+                        </md-tooltip>
+                      </md-button>
+                      <md-button ng-if="list.available === 0" class="md-icon-button" ng-click="null"> 
+                        <md-icon md-font-set="material-icons">assignment_late</md-icon>
+                        <md-tooltip>
+                          Book is not available!
+                        </md-tooltip>
+                      </md-button>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+            </md-table-container>
+
+            <md-table-pagination md-limit="bookCtrl.query.limit" md-limit-options="[5, 10, 15]" md-page="bookCtrl.query.page" md-total="{{bookCtrl.bookList.data.length}}" md-on-paginate="bookCtrl.paginateBookList" md-page-select></md-table-pagination>
+          </md-card>
+      	</md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </md-card>
+</md-content>

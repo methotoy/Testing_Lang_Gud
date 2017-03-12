@@ -1,0 +1,116 @@
+<md-dialog aria-label="Book Request Form" ng-style="{'min-width':'30%'}">
+  <form ng-cloak name="requestForm" ng-submit="requestDialogCtrl.save()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ requestDialogCtrl.dialogTitle }}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div layout-padding>
+        <div ng-if="requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request'">
+          <md-autocomplete ng-if="requestDialogCtrl.selectedData.option !== 'request'" flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.display" md-require-match md-floating-label="Book Title">
+            <md-item-template>
+              <span md-highlight-text="requestDialogCtrl.searchText">{{item.display}}</span>
+            </md-item-template>
+            <md-not-found>
+              No book matching "{{requestDialogCtrl.searchText}}" were found.
+            </md-not-found>
+            <div ng-messages="requestForm.book_title.$error" ng-if="requestForm.book_title.$touched">
+              <div ng-message="required">You <b>must</b> choose a book.</div>
+              <div ng-message="md-require-match">Please select an existing book.</div>
+              <div ng-message="minlength">Your entry is not long enough.</div>
+              <div ng-message="maxlength">Your entry is too long.</div>
+            </div>
+          </md-autocomplete>
+
+          <md-input-container ng-if="requestDialogCtrl.selectedData.option === 'request'" class='md-block'>
+            <label>Book Title</label>
+            <input required ng-readonly="true" ng-model="requestDialogCtrl.formData.title">
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Days</label>
+            <input ng-disabled="requestDialogCtrl.formDisabled" required type="number" min="1" name="days" ng-model="requestDialogCtrl.formData.days">
+            <div ng-messages="requestForm.days.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <div ng-if="requestDialogCtrl.selectedData !== null && requestDialogCtrl.selectedData.option !== 'request'">
+          <div layout="row">
+            <md-input-container class="md-block">
+              <label>Book Title</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.book_info.title">
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <label>Days</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.days">
+            </md-input-container>
+          </div>
+
+          <div layout="row">
+            <md-input-container>
+              <label>Request Status</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.status">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Date Requested</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.date_filed">
+            </md-input-container>
+          </div>
+
+          <div layout="row" ng-if="requestDialogCtrl.selectedData.request_status === 1">
+            <md-input-container>
+              <label>Approved By</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.approver_info.username">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Date Approved</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.date_approved">
+            </md-input-container>
+          </div>
+
+          <div layout="row" ng-if="requestDialogCtrl.selectedData.request_status === 2">
+            <md-input-container>
+              <label>Disapproved By</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.approver_info.username">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Date Disapproved</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.date_approved">
+            </md-input-container>
+          </div>
+
+          <div ng-if="requestDialogCtrl.selectedData.request_status === 3">
+            <md-input-container class="md-block">
+              <label>Date Cancelled</label>
+              <input ng-readonly="requestDialogCtrl.formDisabled" ng-model="requestDialogCtrl.selectedData.date_cancelled">
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button type="button" ng-click="requestDialogCtrl.cancel()">{{ (requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request')? 'Cancel' : 'Close' }}</md-button>
+
+      <!-- Cancel Request -->
+      <md-button ng-if="requestDialogCtrl.selectedData !== null && requestDialogCtrl.selectedData.request_status === 0 && !requestDialogCtrl.cancelRequest" class="md-primary md-raised" type="button" ng-click="requestDialogCtrl.cancelRequest = true">Cancel Request</md-button>
+      <!-- !Cancel Request -->
+
+      <!-- Cancel Confirmation -->
+      <md-button ng-if="requestDialogCtrl.selectedData !== null && requestDialogCtrl.cancelRequest" ng-disabled="requestDialogCtrl.formDisabled" class="md-warn md-raised" type="button" ng-click="requestDialogCtrl.cancelRequestConfirm(requestDialogCtrl.selectedData)">Continue</md-button>
+      <!-- !Cancel Confirmation -->
+      
+      <!-- Log New Requst -->
+      <md-button ng-if="requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request'" class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
+      <!-- !Log New Requst -->
+    </md-dialog-actions>
+  </form>
+</md-dialog>

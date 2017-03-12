@@ -64,17 +64,29 @@ class BookRequestController extends ModelController
         $bookAvailabe = 1;
 
         if( $option === null ) {
-            $book_id = $request->book['id'];
+            if($request->has('book')) {
+                $book_id = $request->book['id'];
 
-            // validate required fields
-            $this->validate($request,[
-                'book'     => 'required',
-                'days'    => 'required'
-            ]);
+                // validate required fields
+                $this->validate($request,[
+                    'book'     => 'required',
+                    'days'    => 'required'
+                ]);
+            } else {
+                $book_id = $request->id;
+
+                // validate required fields
+                $this->validate($request,[
+                    'title'     => 'required',
+                    'days'    => 'required'
+                ]);
+            }
+
+            
 
             // fetch request data to the database fields
             $bookRequest->user_id = $this->user->id;
-            $bookRequest->book_id = $request->book['id'];
+            $bookRequest->book_id = $book_id;
             $bookRequest->days = $request->days;
             $bookRequest->request_status = 0;
             $bookAvailabe = 0;
