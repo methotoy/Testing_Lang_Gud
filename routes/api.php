@@ -48,4 +48,16 @@ Route::group(['middleware' => ['api']], function () {
 		Route::post('save', 'ProfileController@save');
 	});
 
+	// Course Group
+	Route::group(['prefix' => 'course'], function () {
+		Route::post('list', 'CourseController@list');
+		Route::post('save', 'CourseController@save');
+	});
+
+	// Department Group
+	Route::group(['prefix' => 'department'], function () {
+		Route::post('list', 'DepartmentController@list');
+		Route::post('save', 'DepartmentController@save');
+	});
+
 });

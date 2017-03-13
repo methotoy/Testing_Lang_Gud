@@ -13,7 +13,7 @@ class Members extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unique();
             $table->string('student_id')->unique();
@@ -37,6 +37,6 @@ class Members extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('profiles');
     }
 }

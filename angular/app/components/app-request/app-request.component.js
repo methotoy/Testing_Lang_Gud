@@ -70,7 +70,7 @@ class AppRequestController{
 
 class RequestDialogController {
 
-    constructor( getData, $mdDialog, API, ToastService, $q, $timeout, $filter ){
+    constructor( getData, $mdDialog, API, ToastService, $q, $filter ){
         'ngInject';
 
         this.selectedData = getData;
@@ -84,8 +84,6 @@ class RequestDialogController {
         this.$mdDialog = $mdDialog;
 
         this.$q = $q;
-
-        this.$timeout = $timeout;
 
         this.$filter = $filter;
 
@@ -158,13 +156,7 @@ class RequestDialogController {
 
     querySearch( query ) {
         let results = query? this.books.filter( this.createFilterFor( query ) ) : this.books;
-        let deferred = this.$q.defer();
-
-        this.$timeout(function(){
-            deferred.resolve( results );
-        }, Math.random() * 1000, false);
-
-        return deferred.promise;
+        return this.$q.when( results );
     }
 
     fetchBookList() {
