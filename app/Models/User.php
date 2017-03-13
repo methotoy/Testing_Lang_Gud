@@ -58,5 +58,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\BookRequest', 'user_id');
     }
 
+    /**
+    * Return an array value, containing user profile details
+    *
+    * @return array
+    */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile', 'user_id');
+    }
+
 
 }

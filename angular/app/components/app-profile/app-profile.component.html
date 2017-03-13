@@ -1,0 +1,143 @@
+<md-content ng-cloak layout="column" flex>
+  <md-card class="Content-container">
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab>
+        <md-tab-label>
+          <span ng-style="{'color' : 'white'}"> Profile </span>
+        </md-tab-label>
+
+        <md-tab-body>
+          <md-card layout-padding>
+            <form name="profileForm" ng-submit="profileCtrl.save()">
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>Student Id</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="student_id" ng-model="profileCtrl.formData.student_id">
+                  <div ng-messages="profileForm.student_id.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container ng-if="false" class="md-block" flex>
+                  <label>Teacher Id</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="teacher_id" ng-model="profileCtrl.formData.teacher_id">
+                  <div ng-messages="profileForm.teacher_id.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>First Name</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="first_name" ng-model="profileCtrl.formData.first_name">
+                  <div ng-messages="profileForm.first_name.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Last Name</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="last_name" ng-model="profileCtrl.formData.last_name">
+                  <div ng-messages="profileForm.last_name.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>Age</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="age" ng-model="profileCtrl.formData.age">
+                  <div ng-messages="profileForm.age.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Gender</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="gender" ng-model="profileCtrl.formData.gender">
+                  <div ng-messages="profileForm.gender.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>Birthday</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="birthday" ng-model="profileCtrl.formData.birthday">
+                  <div ng-messages="profileForm.birthday.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Department</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="department" ng-model="profileCtrl.formData.department">
+                  <div ng-messages="profileForm.department.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>Course</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="course" ng-model="profileCtrl.formData.course">
+                  <div ng-messages="profileForm.course.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Year</label>
+                  <input ng-readonly="!profileCtrl.editMode" required name="year" ng-model="profileCtrl.formData.year">
+                  <div ng-messages="profileForm.year.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container class="md-block" flex>
+                  <label>Date Join</label>
+                  <input ng-readonly="true" required name="date_join" ng-model="profileCtrl.formData.created_at">
+                  <div ng-messages="profileForm.date_join.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                  <label>Last Activity</label>
+                  <input ng-readonly="true" required name="last_activity" ng-model="profileCtrl.formData.last_activity">
+                  <div ng-messages="profileForm.last_activity.$error">
+                    <div ng-message="required">This is required.</div>
+                  </div>
+                </md-input-container>
+              </div>
+              
+              <div layout="row" layout-align="end center">
+                <md-button ng-if="!profileCtrl.editMode" class="md-primary md-raised" ng-click="profileCtrl.editMode = true">Edit</md-button>
+                <md-button ng-if="profileCtrl.editMode" ng-click="profileCtrl.cancelEdit()">Cancel</md-button>
+                <md-button ng-if="profileCtrl.editMode" class="md-primary md-raised">Update</md-button>
+              </div>
+            </form>
+          </md-card>
+        </md-tab-body>
+      </md-tab>
+
+      <md-tab>
+        <md-tab-label>
+          <span ng-style="{'color' : 'white'}"> Activity Logs </span>
+        </md-tab-label>
+
+        <md-tab-body>
+          <md-card layout-padding>
+            EMPTY
+          </md-card>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </md-card>
+</md-content>

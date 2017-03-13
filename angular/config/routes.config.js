@@ -64,6 +64,15 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('app.profile', {
+            data: {auth: true},
+            url: '/profile',
+            views: {
+                'main@': {
+                    templateUrl: getView('profile')
+                }
+            }
+        })
         .state('app.landing', {
             url: '/landing',
             views: {
@@ -80,7 +89,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 				}
 			}
 		})
-        .state('app.register', {
+        .state('app2.register', {
             url: '/register',
             views: {
                 'main@': {
@@ -88,7 +97,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('app.forgot_password', {
+        .state('app2.forgot_password', {
             url: '/forgot-password',
             views: {
                 'main@': {
@@ -96,7 +105,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('app.reset_password', {
+        .state('app2.reset_password', {
             url: '/reset-password/:email/:token',
             views: {
                 'main@': {

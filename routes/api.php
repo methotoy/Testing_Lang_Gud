@@ -42,4 +42,10 @@ Route::group(['middleware' => ['api']], function () {
 		Route::post('save/{option?}', 'BookRequestController@save');
 	});
 
+	// Profile Group
+	Route::group(['prefix' => 'profile'], function () {
+		Route::post('details', 'ProfileController@details');
+		Route::post('save', 'ProfileController@save');
+	});
+
 });
