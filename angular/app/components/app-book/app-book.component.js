@@ -1,5 +1,5 @@
 class AppBookController{
-    constructor( API, $mdDialog, ToastService ){
+    constructor( API, $mdDialog, ToastService, DialogService ){
         'ngInject';
 
         this.API = API;
@@ -7,6 +7,8 @@ class AppBookController{
         this.$mdDialog = $mdDialog;
 
         this.ToastService = ToastService;
+
+        this.DialogService = DialogService;
     }
 
     $onInit(){
@@ -29,112 +31,97 @@ class AppBookController{
         }.bind(this));
     }
 
-    action(ev, data = null) {
-        this.$mdDialog.show({
-            resolve : {
-                getData : function(){
-                    return data;
-                }
-            },      
-            controller          : BookDialogController,
-            controllerAs        : 'bookDialogCtrl',
-            templateUrl         : './views/app/components/app-book/form-dialog.html',
+    hide(){
+        this.$mdDialog.hide();
+    }
+
+    cancel(){
+        this.$mdDialog.cancel();
+    }
+
+    request(ev, data = null) {
+        data.option = "request"
+        let option = {
+            resolve : { getData : function(){ return data; } },
+            controller          : RequestDialogController,
+            controllerAs        : 'requestDialogCtrl',
             parent              : angular.element(document.body),
             targetEvent         : ev,
             clickOutsideToClose : false,
             fullscreen          : true,
             escapeToClose       : false
-        }).then(
+        };
+
+        this.DialogService.fromTemplate('book-request', option).then(
             function(){
                 this.fetchBookList();
-                this.hide();
             }.bind(this),
             function(){
             }.bind(this)
         );
     }
-
-    hide(){
-        this.$mdDialog.hide();
-    }
-
-    cancel(){
-        this.$mdDialog.cancel();
-    }
-
-    delete(ev, data = null) {
-        let confirm = this.$mdDialog.confirm()
-            .title('Attention!')
-            .textContent('You are about to delete book \''+data.title+'\'')                
-            .targetEvent(ev)
-            .ok('Continue')
-            .cancel('Cancel');
-
-        this.$mdDialog.show(confirm).then(function() {
-            this.API.all('/book/delete').post(data).then(
-                function(){
-                    this.fetchBookList();
-                    this.hide();
-                    this.ToastService.show('Delete book successfully.');
-                }.bind(this),
-                function(){
-                    this.cancel();
-                    this.ToastService.error('Delete book failed!');
-                }.bind(this)
-            );
-        }.bind(this));
-    }
 }
 
-class BookDialogController {
+class RequestDialogController {
 
-    constructor( getData, $mdDialog, API, ToastService ){
+    constructor( getData, $mdDialog, API, ToastService, $q, $timeout, $filter ){
         'ngInject';
 
+        this.selectedData = getData;
+
         this.API = API;
+
+        this.formData = {};
 
         this.ToastService = ToastService;
 
         this.$mdDialog = $mdDialog;
 
-        this.selectedData = getData;
+        this.$q = $q;
 
-        this.dialogTitle = "Book Information";
+        this.$timeout = $timeout;
 
-        this.editMode = this.selectedData != null? true : false;
+        this.$filter = $filter;
 
-        this.formData = this.selectedData == null? {} : this.selectedData;
+        this.dialogTitle = 'Book Request Form';
+
+        this.noCache = false;
+
+        this.selectedItem = null;
+
+        this.searchText = null;
+
+        this.books = null;
+
+        this.cancelRequest = false;
 
         this.formDisabled = false;
 
-        this.updateData = false;
+        this.formData = this.selectedData;
+
     }
 
     save() {
         this.formDisabled = true;
-        
-        this.toastMessageSuccess = this.updateData? 'Book successfully updated.' : 'Book successfully added.';
 
-        this.toastMessageError = this.updateData? 'Failed to update book!' : 'Failed to add book!';
-
-        this.API.all('/book/save').post(this.formData).then(
+        this.API.all('/request/save').post(this.formData).then(
             function() {
-                this.$mdDialog.hide();
-                this.ToastService.show(this.toastMessageSuccess);
+                this.hide();
+                this.ToastService.show('Request successfully send.');
             }.bind(this),
             function() {
-                this.$mdDialog.cancel();
-                this.ToastService.error(this.toastMessageError);
+                this.cancel();
+                this.ToastService.error('Failed to send a request!');
             }.bind(this)
         );
     }
 
-    edit() {
-        this.formData.date_received = this.formData.date_received != null? new Date(this.formData.date_received) : null;
+    createFilterFor( query ) {
+        let lowercaseQuery = angular.lowercase( query );
 
-        this.editMode = false;
-
-        this.updateData = true;
+        return function filterFn( books ) {
+            return ( books.title.indexOf( lowercaseQuery ) === 0 );
+        };
     }
 
     hide(){
@@ -144,6 +131,7 @@ class BookDialogController {
     cancel(){
         this.$mdDialog.cancel();
     }
+
 }
 
 export const AppBookComponent = {

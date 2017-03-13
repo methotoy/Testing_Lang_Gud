@@ -8,8 +8,8 @@
 
     <md-dialog-content>
       <div layout-padding>
-        <div ng-if="requestDialogCtrl.selectedData === null">
-          <md-autocomplete flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.display" md-require-match md-floating-label="Book Title">
+        <div ng-if="requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request'">
+          <md-autocomplete ng-if="requestDialogCtrl.selectedData.option !== 'request'" flex required md-input-name="book_title" md-input-minlength="2" md-input-maxlength="18" md-no-cache="requestDialogCtrl.noCache" md-selected-item="requestDialogCtrl.formData.book" md-search-text="requestDialogCtrl.searchText" md-items="item in requestDialogCtrl.querySearch(requestDialogCtrl.searchText)" md-item-text="item.display" md-require-match md-floating-label="Book Title">
             <md-item-template>
               <span md-highlight-text="requestDialogCtrl.searchText">{{item.display}}</span>
             </md-item-template>
@@ -24,6 +24,11 @@
             </div>
           </md-autocomplete>
 
+          <md-input-container ng-if="requestDialogCtrl.selectedData.option === 'request'" class='md-block'>
+            <label>Book Title</label>
+            <input required ng-readonly="true" ng-model="requestDialogCtrl.formData.title">
+          </md-input-container>
+
           <md-input-container class="md-block">
             <label>Days</label>
             <input ng-disabled="requestDialogCtrl.formDisabled" required type="number" min="1" name="days" ng-model="requestDialogCtrl.formData.days">
@@ -33,7 +38,7 @@
           </md-input-container>
         </div>
 
-        <div ng-if="requestDialogCtrl.selectedData !== null">
+        <div ng-if="requestDialogCtrl.selectedData !== null && requestDialogCtrl.selectedData.option !== 'request'">
           <div layout="row">
             <md-input-container class="md-block">
               <label>Book Title</label>
@@ -93,7 +98,7 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button type="button" ng-click="requestDialogCtrl.cancel()">{{ requestDialogCtrl.selectedData === null? 'Cancel' : 'Close' }}</md-button>
+      <md-button type="button" ng-click="requestDialogCtrl.cancel()">{{ (requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request')? 'Cancel' : 'Close' }}</md-button>
 
       <!-- Cancel Request -->
       <md-button ng-if="requestDialogCtrl.selectedData !== null && requestDialogCtrl.selectedData.request_status === 0 && !requestDialogCtrl.cancelRequest" class="md-primary md-raised" type="button" ng-click="requestDialogCtrl.cancelRequest = true">Cancel Request</md-button>
@@ -104,7 +109,7 @@
       <!-- !Cancel Confirmation -->
       
       <!-- Log New Requst -->
-      <md-button ng-if="requestDialogCtrl.selectedData === null" class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
+      <md-button ng-if="requestDialogCtrl.selectedData === null || requestDialogCtrl.selectedData.option === 'request'" class="md-primary md-raised" ng-disabled="requestForm.$invalid || requestDialogCtrl.formDisabled" type="submit">Request</md-button>
       <!-- !Log New Requst -->
     </md-dialog-actions>
   </form>

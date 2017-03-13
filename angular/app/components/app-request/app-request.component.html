@@ -1,4 +1,4 @@
-<md-content layout="column" flex>
+<md-content ng-cloak layout="column" flex>
 	<md-card class="Content-container">
 		<md-tabs md-dynamic-height md-border-bottom>
 			<md-tab>
@@ -11,18 +11,14 @@
 				   <md-toolbar class="md-table-toolbar md-default">
 			        <div class="md-toolbar-tools">
 			          <div flex>
-			            <!-- <md-input-container md-no-float class="md-block" ng-style="{'margin-top' : '50px'}">
-			              <label>Search</label>
-			              <md-icon> search </md-icon>
-			              <input ng-model="requestCtrl.filter" type="text">
-			            </md-input-container> -->
+			            <span>Filter : {{ requestCtrl.filterStatus === null? 'All' : requestCtrl.filterStatus }}</span>
 			          </div>
 
 			          <md-menu>
 				          <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
 				            <md-icon> filter_list </md-icon>
 				            <md-tooltip>
-											Filter : {{ requestCtrl.filter === null? 'All' : requestCtrl.filter }}
+											Filter
 										</md-tooltip>
 				          </md-button>
 

@@ -8,9 +8,33 @@ use App\Models\BookRequest as BR;
 
 class BookRequestController extends ModelController
 {
-    public function list() {
-    	$data = $this->user->bookRequests()->get();
+    public function list( $option = null ) {
+        if( $option !== null ) {
+            switch ( $option ) {
+                case 'Pending':
+                    $status = 0;
+                    break;
+                
+                case 'Approved':
+                    $status = 1;
+                    break;
 
+                case 'Disapproved':
+                    $status = 2;
+                    break;
+
+                case 'Cancelled':
+                    $status = 3;
+                    break;
+            }
+
+            $data = $this->user->bookRequests()
+                    ->where('request_status',$status)
+                    ->get();
+        } else {
+            $data = $this->user->bookRequests()->get();
+        }
+    	
         if( !$data->isEmpty() ) {
             $count = 0;
 
@@ -35,26 +59,66 @@ class BookRequestController extends ModelController
     	return response()->error('Error');
     }
 
-    public function save(Request $request) {
+    public function save(Request $request, $option = null) {
         $bookRequest = new BR;
+        $bookAvailabe = 1;
 
-        // validate required fields
-        $this->validate($request,[
-            'book'     => 'required',
-            'days'    => 'required'
-        ]);
+        if( $option === null ) {
+            if($request->has('book')) {
+                $book_id = $request->book['id'];
 
-        // fetch request data to the database fields
-        $bookRequest->user_id = $this->user->id;
-        $bookRequest->book_id = $request->book['id'];
-        $bookRequest->days = $request->days;
-        $bookRequest->request_status = 0;
+                // validate required fields
+                $this->validate($request,[
+                    'book'     => 'required',
+                    'days'    => 'required'
+                ]);
+            } else {
+                $book_id = $request->id;
+
+                // validate required fields
+                $this->validate($request,[
+                    'title'     => 'required',
+                    'days'    => 'required'
+                ]);
+            }
+
+            
+
+            // fetch request data to the database fields
+            $bookRequest->user_id = $this->user->id;
+            $bookRequest->book_id = $book_id;
+            $bookRequest->days = $request->days;
+            $bookRequest->request_status = 0;
+            $bookAvailabe = 0;
+        } else {
+            $book_id = $request->book_id;
+            $bookRequest = $bookRequest->find($request->id);
+
+            switch ( $option ) {
+                case 'approve':
+                    $bookRequest->request_status = 1;
+                    $bookAvailabe = 0;
+                    break;
+
+                case 'disapprove':
+                    $bookRequest->request_status = 2;
+                    $bookAvailabe = 1;
+                    break;
+
+                case 'cancel':
+                    $bookRequest->request_status = 3;
+                    $bookAvailabe = 1;
+                    break;
+            }
+        }
+
+        
 
         // save request to database
         if( $bookRequest->save() ) {
-            $this->book = $this->book->find($request->book['id']);
+            $this->book = $this->book->find($book_id);
 
-            $this->book->available = 0;
+            $this->book->available = $bookAvailabe;
 
             if( $this->book->save() ) {
                 return response()->success('Success');
