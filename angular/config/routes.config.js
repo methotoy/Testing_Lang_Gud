@@ -73,14 +73,6 @@ export function RoutesConfig($stateProvider, $urlRouterProvider, $locationProvid
                 }
             }
         })
-        .state('app.landing', {
-            url: '/landing',
-            views: {
-                'main@': {
-                    templateUrl: getView('landing')
-                }
-            }
-        })
         .state('app2.login', {
 			url: '/login',
 			views: {
