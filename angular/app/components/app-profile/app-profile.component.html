@@ -18,14 +18,6 @@
                     <div ng-message="pattern">###-#### - Please enter a valid student id number.</div>
                   </div>
                 </md-input-container>
-
-                <md-input-container ng-if="false" class="md-block" flex>
-                  <label>Teacher Id</label>
-                  <input ng-readonly="!profileCtrl.editMode" required name="teacher_id" ng-model="profileCtrl.formData.teacher_id">
-                  <div ng-messages="profileForm.teacher_id.$error">
-                    <div ng-message="required">This is required.</div>
-                  </div>
-                </md-input-container>
               </div>
 
               <div layout="row" flex>
@@ -90,13 +82,13 @@
 
                 <md-input-container ng-if="!profileCtrl.editMode" class="md-block" flex>
                   <label>Department</label>
-                  <input ng-readonly="!profileCtrl.editMode" required name="department" ng-model="profileCtrl.formData.department.name">
+                  <input ng-readonly="!profileCtrl.editMode" required name="department" ng-model="profileCtrl.formData.department_name">
                 </md-input-container>
 
                 <md-input-container ng-if="profileCtrl.editMode" flex>
                   <label>Department</label>
-                  <md-select required name="department" ng-model="profileCtrl.formData.department.name">
-                    <md-option ng-value="department.name" ng-repeat="department in profileCtrl.department"> {{ department.name }} </md-option>
+                  <md-select required name="department" ng-model="profileCtrl.formData.department">
+                    <md-option ng-value="department.id" ng-repeat="department in profileCtrl.department"> {{ department.name }} </md-option>
                   </md-select>
                   <div ng-messages="profileForm.department.$error">
                     <div ng-message="required">This is required.</div>
@@ -107,13 +99,13 @@
               <div layout="row" flex>
                 <md-input-container ng-if="!profileCtrl.editMode" class="md-block" flex>
                   <label>Course</label>
-                  <input ng-readonly="!profileCtrl.editMode" required name="course" ng-model="profileCtrl.formData.course.name">
+                  <input ng-readonly="!profileCtrl.editMode" required name="course" ng-model="profileCtrl.formData.course_name">
                 </md-input-container>
 
                 <md-input-container ng-if="profileCtrl.editMode" flex>
                   <label>Course</label>
-                  <md-select required name="course" ng-model="profileCtrl.formData.course.name">
-                    <md-option ng-value="course.name" ng-repeat="course in profileCtrl.course"> {{ course.name }} </md-option>
+                  <md-select required name="course" ng-model="profileCtrl.formData.course">
+                    <md-option ng-value="course.id" ng-repeat="course in profileCtrl.course"> {{ course.name }} </md-option>
                   </md-select>
                   <div ng-messages="profileForm.course.$error">
                     <div ng-message="required">This is required.</div>

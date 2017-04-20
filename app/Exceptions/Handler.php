@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof TokenExpiredException || $exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            return redirect('/#!/login')->withErrors(["token_error" => 'Sorry, your session seems to have expired. Please try again.']);
+            return redirect('login')->withErrors(["token_error" => 'Sorry, your session seems to have expired. Please try again.']);
         }
 
         return parent::render($request, $exception);

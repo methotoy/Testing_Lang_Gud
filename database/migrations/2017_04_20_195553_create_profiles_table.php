@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Members extends Migration
+class CreateProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,15 +15,15 @@ class Members extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unique();
-            $table->string('student_id')->unique();
+            $table->integer('user_id');
+            $table->string('student_id');
             $table->string('first_name');
             $table->string('last_name');
             $table->integer('age');
             $table->string('gender');
             $table->date('birthday');
-            $table->string('department');
-            $table->string('course');
+            $table->integer('department');
+            $table->integer('course');
             $table->integer('year');
             $table->timestamp('last_activity');
             $table->timestamps();

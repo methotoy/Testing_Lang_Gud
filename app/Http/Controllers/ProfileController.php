@@ -10,6 +10,8 @@ use App\Models\Course as Course;
 
 use App\Models\Department as Department;
 
+use App\Models\User as User;
+
 use App\Traits\Common;
 
 class ProfileController extends ModelController
@@ -19,9 +21,9 @@ class ProfileController extends ModelController
     public function details() {
     	$data = $this->user->profile;
 
-    	$data->course = $this->user->profile->course()->get();
+        $data->setAttribute('department_name', Department::find($data->department)->name);
 
-    	$data->department = $this->user->profile->department()->get();
+        $data->setAttribute('course_name', Course::find($data->course)->name);
 
     	return response()->json(compact('data'), 200); 
     }

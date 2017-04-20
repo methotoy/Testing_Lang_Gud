@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    public function course() {
-    	return $this->belongsTo('App\Models\Course', 'course', 'id');
+	public function user() {
+		return $this->belongsTo(User::class, 'user_id');
+	}
+
+    public function courseName() {
+    	return $this->belongsTo(Course::class, 'course', 'id');
     }
 
-    public function department() {
-    	return $this->belongsTo('App\Models\Department', 'department', 'id');
+    public function departmentName() {
+    	return $this->belongsTo(Department::class, 'department', 'id');
     }
 }

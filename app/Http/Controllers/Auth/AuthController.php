@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Auth;
 use JWTAuth;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,13 +36,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'name'       => 'required|min:3',
+            'username'       => 'required|min:3',
             'email'      => 'required|email|unique:users',
             'password'   => 'required|min:8',
         ]);
 
         $user = new User;
-        $user->name = trim($request->name);
+        $user->username = trim($request->username);
         $user->email = trim(strtolower($request->email));
         $user->password = bcrypt($request->password);
         $user->save();
