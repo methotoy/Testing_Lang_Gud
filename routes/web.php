@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'AngularController@serveApp');
+Route::get('/{any?}', 'AngularController@serveApp');
 
 Route::get('/unsupported-browser', 'AngularController@unsupported');

@@ -1,20 +1,21 @@
 class RegisterFormController {
-	constructor($auth, ToastService) {
+	constructor($auth, ToastService, $state) {
 		'ngInject';
 
 		this.$auth = $auth;
 		this.ToastService = ToastService;
+		this.$state = $state;
 	}
 
     $onInit(){
-        this.name = '';
+        this.username = '';
         this.email = '';
         this.password = '';
     }
 
 	register() {
 		let user = {
-			name: this.name,
+			username: this.username,
 			email: this.email,
 			password: this.password
 		};
@@ -25,6 +26,8 @@ class RegisterFormController {
 				this.$auth.setToken(response.data);
 
 				this.ToastService.show('Successfully registered.');
+
+				this.$state.go('app2.login');
 			})
 			.catch(this.failedRegistration.bind(this));
 	}

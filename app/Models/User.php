@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,7 +57,17 @@ class User extends Authenticatable implements JWTSubject
     */
     public function bookRequests()
     {
-        return $this->hasMany('App\Models\BookRequest', 'user_id');
+        return $this->hasMany(BookRequest::class, 'user_id');
+    }
+
+    /**
+    * Return an array value, containing user profile details
+    *
+    * @return array
+    */
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
 

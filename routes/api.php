@@ -42,4 +42,22 @@ Route::group(['middleware' => ['api']], function () {
 		Route::post('save/{option?}', 'BookRequestController@save');
 	});
 
+	// Profile Group
+	Route::group(['prefix' => 'profile'], function () {
+		Route::post('details', 'ProfileController@details');
+		Route::post('save', 'ProfileController@save');
+	});
+
+	// Course Group
+	Route::group(['prefix' => 'course'], function () {
+		Route::post('list', 'CourseController@list');
+		Route::post('save', 'CourseController@save');
+	});
+
+	// Department Group
+	Route::group(['prefix' => 'department'], function () {
+		Route::post('list', 'DepartmentController@list');
+		Route::post('save', 'DepartmentController@save');
+	});
+
 });
