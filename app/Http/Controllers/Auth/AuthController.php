@@ -25,18 +25,54 @@ class AuthController extends Controller
                 return response()->error('Invalid credentials', 401);
             }
         } catch (\JWTException $e) {
-            return response()->error('Could not create token', 500);
+            return response()->success(compact('user', 'token'));
         }
 
         $user = Auth::user();
 
+        $number = "";
+        $message = "Test is now login";
+        $apicode = "TR-EMERI572871_GJ4TS";
+
+        $result = $this->itexmo($number, $message, $apicode);
+
+        $resultN = "iTexMo: No response from server!!!";
+        $result0 = "Message Sent!";
+        $result1 = "Error Num ". $result . " was encountered!";
+
+        if ($result == "") {
+            return response()->success(compact('user', 'token', '$resultN'));
+        } else if ($result == 0) {
+            return response()->success(compact('user', 'token', '$result0'));
+        } else {
+            return response()->success(compact('user', 'token', '$result1'));
+        }
+
         return response()->success(compact('user', 'token'));
+    }
+
+    private function itexmo( $number, $message, $apicode ) {
+
+        $ch = curl_init();
+        $itexmo = array(
+            '1' =>  $number,
+            '2' =>  $message,
+            '3' =>  $apicode
+        );
+
+        curl_setopt($ch, CURLOPT_URL, "https://www.itexmo.com/php_api/api.php");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($itexmo));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        return curl_exec ($ch);
+        curl_close ($ch);
+
     }
 
     public function register(Request $request)
     {
         $this->validate($request, [
-            'username'       => 'required|min:3',
+            'username'   => 'required|min:3',
             'email'      => 'required|email|unique:users',
             'password'   => 'required|min:8',
         ]);
